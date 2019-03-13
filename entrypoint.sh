@@ -26,6 +26,9 @@ openssl req \
         -newkey rsa:4096 -days 365 \
         -nodes -x509 \
         -subj "${SUBJECT}" \
+        -reqexts SAN \
+        -extensions SAN \
+        -config <(cat /etc/ssl/openssl.cnf <(printf '[SAN]\nsubjectAltName=DNS:${SUBJECT}')) \
         -keyout "${CA_DIR}"/private/cakey.pem  \
         -out "${CA_DIR}"/cacert.pem
 
