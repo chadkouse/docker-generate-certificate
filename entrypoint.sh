@@ -21,7 +21,7 @@ done
 echo 1000 > "${CA_DIR}"/serial
 touch "${CA_DIR}"/index.txt
 
-{ cat /etc/ssl/openssl.cnf; printf '[SAN]\nsubjectAltName=DNS:${SUBJECT}'; } >san.fifo &
+{ cat /etc/ssl/openssl.cnf; printf "[SAN]\nsubjectAltName=DNS:${SUBJECT}"; } >san.fifo &
 
 openssl req \
         -new \
