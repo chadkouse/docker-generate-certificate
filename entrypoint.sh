@@ -21,6 +21,8 @@ done
 echo 1000 > "${CA_DIR}"/serial
 touch "${CA_DIR}"/index.txt
 
+{ cat /etc/ssl/openssl.cnf; printf '[SAN]\nsubjectAltName=DNS:${SUBJECT}'; } >san.fifo &
+
 openssl req \
         -new \
         -newkey rsa:4096 -days 365 \
@@ -28,7 +30,7 @@ openssl req \
         -subj "${SUBJECT}" \
         -reqexts SAN \
         -extensions SAN \
-        -config <(cat /etc/ssl/openssl.cnf <(printf '[SAN]\nsubjectAltName=DNS:${SUBJECT}')) \
+        -config san.fifo \
         -keyout "${CA_DIR}"/private/cakey.pem  \
         -out "${CA_DIR}"/cacert.pem
 
